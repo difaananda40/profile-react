@@ -8,6 +8,7 @@ import {
     Col,
 } from 'react-bootstrap';
 import Avatar from '@material-ui/core/Avatar';
+import AddAPhoto from '@material-ui/icons/AddAPhoto';
 
 export default class Namepic extends Component{
     constructor(props){
@@ -109,14 +110,15 @@ export default class Namepic extends Component{
                                 }}
                                 src={image}
                             />
-                            <Form.File
-                                label={image ? 'Change image' : 'Select image'}
-                                lang="en"
-                                custom
-                                data-browse='Browse'
-                                name="image"
-                                onChange={this.handleChange}
-                            />
+                            <label for="input-image">
+                                <AddAPhoto className="upload-btn" />
+                                <input type="file"
+                                    name="image"
+                                    onChange={this.handleChange}
+                                    className="d-none"
+                                    id="input-image"
+                                />
+                            </label>
                         </Col>
                         <Col xs="6">
                             <Form onSubmit={this.handleSubmit}>
@@ -204,7 +206,17 @@ export default class Namepic extends Component{
                     className="p-5"
                 >
                    <Row>
-                       <Col style={{color:"white"}}>
+                        <Col xs="auto">
+                            <Avatar
+                                className="mb-4"
+                                style={{
+                                    width: '150px',
+                                    height: '150px'
+                                }}
+                                src={image}
+                            />
+                        </Col>
+                        <Col style={{color:"white"}}>
                             <Button variant="primary" onClick={this.changeEditMode}>Edit</Button>
                             <h1>
                                 {firstname || lastname ? `${firstname} ${lastname}` : 'Enter your name' }

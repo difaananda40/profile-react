@@ -48,3 +48,13 @@ textarea.profile-input {
   color: #dc3545;
   border: none;
 }
+
+.upload-btn {
+  color: rgb(177, 177, 177);
+  cursor: pointer;
+  transition: all .2s ease !important;
+}
+
+.upload-btn:hover {
+  color: white;
+}
