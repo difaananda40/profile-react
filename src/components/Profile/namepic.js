@@ -181,9 +181,11 @@ export default class Namepic extends Component{
                    <Row>
                        <Col style={{color:"white"}}>
                             <Button variant="primary" onClick={this.changeEditMode}>Edit</Button>
-                            <h1><p>{firstname} {lastname}</p></h1>
-                            <p>{location}</p>
-                            <p>{description}</p>
+                            <h1>
+                                {firstname || lastname ? `${firstname} ${lastname}` : 'Enter your name' }
+                            </h1>
+                            <p>{location === 'default' ? 'No location added' : location}</p>
+                            <p>{description || 'Description (in your word)'}</p>
                         </Col>
                     </Row>
                 </Container>
