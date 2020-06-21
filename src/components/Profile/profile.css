@@ -5,6 +5,46 @@
     width: '10px'
   }
 
-  .buttons{
-    margin: 0px 420px;
-  }
+.buttons{
+  margin: 0px 420px;
+}
+
+.profile-label {
+  color: rgb(177, 177, 177);
+}
+
+.profile-input {
+  background-color: #1e1e1e !important;
+  border: 1px solid rgb(136, 136, 136) !important;
+  color: white !important;
+  border-radius: 25px;
+  padding: 5px 15px;
+}
+
+.profile-select {
+  background-color: #1e1e1e !important;
+  border: 1px solid rgb(136, 136, 136) !important;
+  color: white !important;
+  border-radius: 25px;
+  padding: 5px 10px;
+}
+
+.profile-select.option {
+  background-color: #1e1e1e !important;
+  /* padding: 5px; */
+}
+
+textarea.profile-input {
+  padding: 15px;
+}
+
+.profile-btn-save {
+  border-radius: 25px;
+}
+
+.profile-btn-cancel {
+  border-radius: 25px;
+  background-color: transparent;
+  color: #dc3545;
+  border: none;
+}

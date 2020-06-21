@@ -1,21 +1,18 @@
 import React, { Component} from 'react';
 import './profile.css';
-//import Avatar from '@material-ui/core/Avatar';
+import {
+    Container,
+    Form,
+    Button,
+    Row,
+    Col,
+} from 'react-bootstrap';
 import Avatar from '@material-ui/core/Avatar';
-import TextField from '@material-ui/core/TextField';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Dropdown } from 'semantic-ui-react';
-import CameraAltOutlinedIcon from '@material-ui/icons/CameraAltOutlined';
-import { DropzoneArea, DropzoneDialog } from 'material-ui-dropzone';
-import { CardActions } from '@material-ui/core';
 
 export default class Namepic extends Component{
     constructor(props){
         super(props);
         this.state = {
-            firstname: '',
-            lastname: '',
-            location: '',
             locations: [
                 'Boston',
                 'Chicago',
@@ -26,89 +23,165 @@ export default class Namepic extends Component{
                 'Miami',
                 'Los Angeles',
             ],
+            form: {
+                firstname: '',
+                lastname: '',
+                location: 'default',
+                description: '',
+            },
             isInEditMode: false
         }
     }
 
-    changeEditMode=()=>{
+    componentDidMount() {
+        const profile = JSON.parse(localStorage.getItem('profile'))
+        if(profile) {
+            this.setState(prevState => ({
+                ...prevState,
+                form: profile
+            }))
+        }
+    }
+
+    changeEditMode= ( )=>{
         this.setState({
             isInEditMode: !this.state.isInEditMode
         })
     }
 
+    handleChange = (event) => {
+        const { name, value } = event.target;
+        this.setState(prevState => ({
+            ...prevState,
+            form: {
+                ...prevState.form,
+                [name]: value
+            }
+        }))
+    }
 
-    render(){  
+    handleSubmit = (event) => {
+        event.preventDefault();
+        localStorage.setItem('profile', JSON.stringify(this.state.form));
+        this.changeEditMode();
+    }
+
+
+    render() {
+        const { firstname, lastname, location, description } = this.state.form;
+        const { locations } = this.state;
         return (this.state.isInEditMode ?
             (
-                <div className="container" style={{width:"100%", marginLeft:'250px'}}>
-                    <div className="row">
-                    <div >
-                        <Avatar ref={this.uploadedImage } style={{marginLeft:"-200px", marginTop:"60px", marginRight:"100px", height:'100px',width:'100px'}}/> 
-                        <input type="file" accept="image/*" onChange={this.handleImageUpload} multiple = {false} style={{marginLeft:'-250px', marginRight:'-15px'}}/>
-                    </div>
-                    <div className="col-md-12" >
-                        <Form style={{marginLeft:'0px'}}>
-                            <Form.Group as={Row}>
-                                <Form.Label column sm={2}>
-                                First name
-                                </Form.Label>
-                                <Col sm={5}>
-                                <Form.Control ref ="textInput" type="text" id="outlined-basic" placeholder="First name" label="First Name" value={this.state.firstname} ref="theTextInput" variant="outlined" style={{'background-color':"#181818", color:"white"}} />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row}>
-                                <Form.Label column sm={2}>
-                                Last name
-                                </Form.Label>
-                                <Col sm={5}>
-                                <Form.Control type="text" id="outlined-basic" label="Last Name" placeholder="Last name"  value="" variant="outlined" style={{'background-color':"#181818", color:"white"}} />
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row}>
-                                <Form.Label column sm={2}>Location</Form.Label>
-                                <Col sm={5}>
-                                <Form.Control as="select" defaultValue="Choose" id="outlined-basic" label="Location" value="" variant="outlined" style={{'background-color':"#181818", color:"white"}}>
-                                <option>Choose</option>
-                                <option>Boston</option>
-                                <option>Chicago</option>
-                                <option>Detroit</option>
-                                <option>Seattle</option>
-                                <option>San Francisco</option>
-                                <option>New York</option>
-                                <option>Miami</option>
-                                <option>Los Angeles</option>
-                                </Form.Control> 
-                                </Col>
-                            </Form.Group>
-                            <Form.Group as={Row}>
-                                <Form.Label column sm={2}>
-                                Description
-                                </Form.Label>
-                                <Col sm={5}>
-                                <Form.Control type="text" id="outlined-basic" label="Type description" placeholder="Type description" value="" variant="outlined" style={{'background-color':"#181818", color:"white"}} />
-                                </Col>
-                            </Form.Group>
-                            <div className="buttons">
-                                <Button variant="outline-danger" style={{marginLeft:'-100px'}} onClick={this.changeEditMode}>Cancel</Button>
-                                <Button variant="primary" style={{marginTop:'-60px'}}>Save</Button>
-                            </div>
-                        </Form>
-                    </div>
-                   </div>
-                </div>
+                <Container fluid
+                    style={{
+                        width: 'calc(100% - 250px)',
+                        height: '100vh',
+                        marginLeft:'250px',
+                        backgroundColor: '#1e1e1e'
+                    }}
+                    className="p-5"
+                >
+                    <Row>
+                        <Col xs="auto">
+                            <Avatar style={{
+                                width: '150px',
+                                height: '150px'
+                            }}/>
+                        </Col>
+                        <Col xs="6">
+                            <Form onSubmit={this.handleSubmit}>
+                                <Form.Group as={Row} controlId="formFirstname">
+                                    <Form.Label column xs="2" className="profile-label">
+                                        First name
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Type firstname"
+                                            className="profile-input"
+                                            name="firstname"
+                                            onChange={this.handleChange}
+                                            value={firstname}
+                                        />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} controlId="formLastname">
+                                    <Form.Label column xs="2" className="profile-label">
+                                        Last name
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            type="text"
+                                            placeholder="Type lastname"
+                                            className="profile-input"
+                                            name="lastname"
+                                            onChange={this.handleChange}
+                                            value={lastname}
+                                        />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} controlId="formLocation">
+                                    <Form.Label column xs="2" className="profile-label">
+                                        Location
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            as="select"
+                                            className="profile-select"
+                                            name="location"
+                                            onChange={this.handleChange}
+                                            value={location}
+                                        >
+                                            <option disabled hidden value="default">Choose location...</option>
+                                            { locations.map((loc, index) => (
+                                                <option key={index} value={loc}>{loc}</option>) 
+                                            )}
+                                        </Form.Control>
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group as={Row} controlId="formDescription">
+                                    <Form.Label column xs="2" className="profile-label">
+                                        Description
+                                    </Form.Label>
+                                    <Col>
+                                        <Form.Control
+                                            placeholder="Type description"
+                                            className="profile-input"
+                                            as="textarea" rows="3"
+                                            name="description"
+                                            value={description}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Col>
+                                </Form.Group>
+                                <Form.Group className="text-right">
+                                    <Button variant="danger" className="mr-2 px-3 profile-btn-cancel" onClick={this.changeEditMode}>Cancel</Button>
+                                    <Button varian="primary" type="submit" className="profile-btn-save px-3">Save</Button>
+                                </Form.Group>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Container>
             )
             : 
             (
-                <div className="container" style= {{width:"100", marginLeft:'250px'}}>
-                   <div className="row">
-                       <div style={{color:"white"}}>
-                        <Button variant="primary" onClick={this.changeEditMode}>Edit</Button>
-                    <h1><p>{this.state.firstname} {this.state.firstname}</p></h1>
-                    <p>{this.state.location}</p>
-                    <p>{this.state.discription}</p>
-                    </div>
-                    </div>
-                </div>
+                <Container fluid
+                    style={{
+                        width: 'calc(100% - 250px)',
+                        marginLeft:'250px',
+                        backgroundColor: 'black'
+                    }}
+                    className="p-5"
+                >
+                   <Row>
+                       <Col style={{color:"white"}}>
+                            <Button variant="primary" onClick={this.changeEditMode}>Edit</Button>
+                            <h1><p>{firstname} {lastname}</p></h1>
+                            <p>{location}</p>
+                            <p>{description}</p>
+                        </Col>
+                    </Row>
+                </Container>
             )
         )
      }
