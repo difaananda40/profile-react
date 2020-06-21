@@ -137,7 +137,7 @@ export default class Namepic extends Component{
                                             onChange={this.handleChange}
                                             value={location}
                                         >
-                                            <option disabled hidden value="default">Choose...</option>
+                                            <option value="default">Choose...</option>
                                             { locations.map((loc, index) => (
                                                 <option key={index} value={loc}>{loc}</option>) 
                                             )}
