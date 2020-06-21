@@ -34,6 +34,10 @@ export default class Namepic extends Component{
     }
 
     componentDidMount() {
+        this.fetchProfile();
+    }
+
+    fetchProfile = () => {
         const profile = JSON.parse(localStorage.getItem('profile'))
         if(profile) {
             this.setState(prevState => ({
@@ -47,6 +51,7 @@ export default class Namepic extends Component{
         this.setState({
             isInEditMode: !this.state.isInEditMode
         })
+        this.fetchProfile();
     }
 
     handleChange = (event) => {
