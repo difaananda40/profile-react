@@ -1,0 +1,53 @@
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+    display: inline-block;
+  }
+
+.sidebar a{
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+}
+
+i{
+  margin-right: 1em;
+  display: inline-block;
+}
+
+.sidebar a:hover{
+  color: #f1f1f1
+}
+
+.dropdown{
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+}
+
+.Icons{
+  margin-top: -30px;
+  margin-left: 150px;
+}
+
+.dropdown-btn:before{
+  content:"";
+  position:absolute;
+  width:0px;
+  height:0px;
+  border: 10px solid;
+  right:6px;
+  top:18px;
+}
+
+.ArrowDropDownIcon{
+  margin-left: 3em;
+}
