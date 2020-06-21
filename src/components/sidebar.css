@@ -28,26 +28,20 @@ i{
   color: #f1f1f1
 }
 
-.dropdown{
+.dropdown {
+  display: flex !important;
   margin-left: 1.5em;
+  margin-right: 1.5em;
   margin-bottom: 1em;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
-.Icons{
-  margin-top: -30px;
-  margin-left: 150px;
+.dropdown .name {
+  word-break: break-word;
 }
 
-.dropdown-btn:before{
-  content:"";
-  position:absolute;
-  width:0px;
-  height:0px;
-  border: 10px solid;
-  right:6px;
-  top:18px;
-}
-
-.ArrowDropDownIcon{
-  margin-left: 3em;
+.dropdown .icons {
+  display: flex;
+  flex-direction: row;
 }

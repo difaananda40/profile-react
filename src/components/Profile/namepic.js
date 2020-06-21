@@ -28,52 +28,65 @@ export default class Namepic extends Component{
                 lastname: '',
                 location: 'default',
                 description: '',
+                image: null,
             },
             isInEditMode: false
         }
     }
 
-    componentDidMount() {
-        this.fetchProfile();
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.profile !== prevProps.profile) {
+          this.setState({
+              form: this.props.profile
+          })
+        }
     }
 
-    fetchProfile = () => {
-        const profile = JSON.parse(localStorage.getItem('profile'))
-        if(profile) {
+    changeEditMode= () =>{
+        this.setState({
+            isInEditMode: !this.state.isInEditMode
+        })
+    }
+
+    toBase64 = file => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+
+    handleChange = async (event) => {
+        const { name, value, type, files } = event.target;
+        if(type === 'file') {
+            const baseFile = await this.toBase64(files[0])
             this.setState(prevState => ({
                 ...prevState,
-                form: profile
+                form: {
+                    ...prevState.form,
+                    [name]: baseFile,
+                }
+            }))
+        }
+        else {
+            this.setState(prevState => ({
+                ...prevState,
+                form: {
+                    ...prevState.form,
+                    [name]: value
+                }
             }))
         }
     }
 
-    changeEditMode= ( )=>{
-        this.setState({
-            isInEditMode: !this.state.isInEditMode
-        })
-        this.fetchProfile();
-    }
-
-    handleChange = (event) => {
-        const { name, value } = event.target;
-        this.setState(prevState => ({
-            ...prevState,
-            form: {
-                ...prevState.form,
-                [name]: value
-            }
-        }))
-    }
-
     handleSubmit = (event) => {
         event.preventDefault();
-        localStorage.setItem('profile', JSON.stringify(this.state.form));
         this.changeEditMode();
+        this.props.setProfile(this.state.form)
     }
 
 
     render() {
-        const { firstname, lastname, location, description } = this.state.form;
+        const { firstname, lastname, location, description, image } = this.state.form;
         const { locations } = this.state;
         return (this.state.isInEditMode ?
             (
@@ -87,11 +100,23 @@ export default class Namepic extends Component{
                     className="p-5"
                 >
                     <Row>
-                        <Col xs="auto">
-                            <Avatar style={{
-                                width: '150px',
-                                height: '150px'
-                            }}/>
+                        <Col xs="auto" className="d-flex flex-column align-items-center">
+                            <Avatar
+                                className="mb-4"
+                                style={{
+                                    width: '150px',
+                                    height: '150px'
+                                }}
+                                src={image}
+                            />
+                            <Form.File
+                                label={image ? 'Change image' : 'Select image'}
+                                lang="en"
+                                custom
+                                data-browse='Browse'
+                                name="image"
+                                onChange={this.handleChange}
+                            />
                         </Col>
                         <Col xs="6">
                             <Form onSubmit={this.handleSubmit}>

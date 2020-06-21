@@ -22,56 +22,47 @@ import AccountBalanceWalletOutlinedIcon from '@material-ui/icons/AccountBalanceW
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import Avatar from '@material-ui/core/Avatar';
 
-    export default class Siderbar extends Component{
-        constructor(){
-            super();
-            this.state={
-                displayMenu:true
-            };
-
-            this.showDropdown=this.showDropdown.bind(this);
-            this.hideDropdown=this.hideDropdown.bind(this);
+export default class Siderbar extends Component{
+    constructor(){
+        super();
+        this.state={
+            displayMenu: true,
+        };
     };
-    showDropdown(e){
+
+    handleDropdown = (e) => {
         e.preventDefault();
         this.setState({
-            displayMenu: true
-        },()=>{
-            document.addEventListener('click',this.hideDropdown);
+            displayMenu: !this.state.displayMenu
         })
     }
-    hideDropdown(){
-        this.setState({
-            displayMenu:false},()=>{
-                document.removeEventListener('click',this.hideDropdown); 
-        });
-    }
-        render(){
-            return(
+
+    render() {
+        const { firstname, lastname, image } = this.props.profile;
+        return(
             <div className="sidebar">
-                <div className="dropdown" onClick={this.showDropdown}>
-                    <Avatar alt="{this.state.firstname} {this.state.lastname}" variant="circle" />
-                    <div className="Icons">
+                <div className="dropdown" onClick={this.handleDropdown}>
+                    <Avatar variant="circle" src={image} />
+                    <p className="text-light ml-2 name">{firstname || lastname ? `${firstname} ${lastname}` : 'Enter your name' }</p>
+                    <div className="icons">
                         <ArrowDropDownIcon style={{color:'white'}}/>
                         <MailOutlineIcon style={{color:'white'}}/>
                     </div>
                 </div>
-                {this.state.displayMenu?(
-                <div>
-                    <Link to='/profile'><PersonOutlineRoundedIcon/><i/>Profile</Link>
-                    <Link to='/dashboard'><TiThLargeOutline/><i/> Dashboard</Link>
-                    <Link to='/resumebuilder'><InsertDriveFileOutlinedIcon /><i/>ResumeBuilder</Link>
-                    <Link to='/community'><PeopleAltOutlinedIcon /><i/>Community</Link>
-                    <Link to='/resources'><FilterNoneOutlinedIcon /><i/>Resources</Link>
-                    <Link to='/faq'><HelpOutlineOutlinedIcon /><i/>FAQ</Link>
-                    <Link to='/contact'><ChatBubbleOutlineIcon /><i/>Contact</Link>
-                    <Link to='/referral'><AccountBalanceWalletOutlinedIcon /><i/>Referral program</Link>
-                </div>
-                ):
-                (
+                {this.state.displayMenu ? (
+                    <div>
+                        <Link to='/profile'><PersonOutlineRoundedIcon/><i/>Profile</Link>
+                        <Link to='/dashboard'><TiThLargeOutline/><i/> Dashboard</Link>
+                        <Link to='/resumebuilder'><InsertDriveFileOutlinedIcon /><i/>ResumeBuilder</Link>
+                        <Link to='/community'><PeopleAltOutlinedIcon /><i/>Community</Link>
+                        <Link to='/resources'><FilterNoneOutlinedIcon /><i/>Resources</Link>
+                        <Link to='/faq'><HelpOutlineOutlinedIcon /><i/>FAQ</Link>
+                        <Link to='/contact'><ChatBubbleOutlineIcon /><i/>Contact</Link>
+                        <Link to='/referral'><AccountBalanceWalletOutlinedIcon /><i/>Referral program</Link>
+                    </div>
+                ) : (
                     null
-                )
-        }
+                )}
             </div>
         )
     }
